@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Invitación de Boda</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --papel: #f6f1e7;          /* marfil suave */
+      --papel-oscuro: #ebdfcf;
+      --fondo: #f7f1ea;
+      --dorado: #c9a86a;         /* dorado muy suave */
+      --texto: #5a4633;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #ffffff 0, var(--fondo) 45%, #e8d8c7 100%);
+      color: var(--texto);
+      padding: 20px 12px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    header h2 {
+      font-size: 1rem;
+      letter-spacing: 0.18em;
+      opacity: 0.8;
+      text-transform: uppercase;
+    }
+
+    /* SOBRE HORIZONTAL */
+    .sobre-container {
+      max-width: 700px;
+      width: 100%;
+      margin: 0 auto 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .sobre {
+      width: 100%;
+      aspect-ratio: 5 / 3; /* horizontal */
+      max-height: 360px;
+      position: relative;
+      border-radius: 26px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 10% 0, rgba(255,255,255,0.95), transparent 60%),
+        radial-gradient(circle at 90% 0, rgba(255,255,255,0.75), transparent 65%),
+        repeating-linear-gradient(135deg,
+          rgba(255,255,255,0.18) 0,
+          rgba(255,255,255,0.18) 1px,
+          transparent 1px,
+          transparent 4px
+        ),
+        linear-gradient(135deg, var(--papel), var(--papel-oscuro));
+      background-blend-mode: soft-light, normal, soft-light, normal;
+      box-shadow:
+        0 24px 48px rgba(0, 0, 0, 0.18),
+        inset 0 0 18px rgba(255, 255, 255, 0.65);
+      transition: transform 0.9s ease, background 0.6s ease, box-shadow 0.6s ease;
+    }
+
+    /* flaps laterales */
+    .flap-left, .flap-right {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 10% 0, rgba(255,255,255,0.9), transparent 60%),
+        repeating-linear-gradient(135deg,
+          rgba(255,255,255,0.16) 0,
+          rgba(255,255,255,0.16) 1px,
+          transparent 1px,
+          transparent 4px
+        ),
+        linear-gradient(135deg, var(--papel-oscuro), var(--papel));
+      background-blend-mode: soft-light, soft-light, normal;
+      opacity: 0.98;
+      z-index: 2;
+      transition: opacity 0.8s ease 0.1s;
+    }
+
+    .flap-left {
+      clip-path: polygon(0 0, 48% 50%, 0 100%);
+    }
+
+    .flap-right {
+      clip-path: polygon(100% 0, 52% 50%, 100% 100%);
+    }
+
+    /* flap superior */
+    .flap-top {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 0, rgba(255,255,255,0.9), transparent 70%),
+        repeating-linear-gradient(135deg,
+          rgba(255,255,255,0.18) 0,
+          rgba(255,255,255,0.18) 1px,
+          transparent 1px,
+          transparent 4px
+        ),
+        linear-gradient(145deg, var(--papel-oscuro), var(--papel));
+      background-blend-mode: soft-light, soft-light, normal;
+      clip-path: polygon(0 0, 100% 0, 50% 70%);
+      transform-origin: top;
+      transition: transform 1s cubic-bezier(0.25, 0.7, 0.3, 1), opacity 0.5s ease 0.3s;
+      z-index: 3;
+    }
+
+    /* sello */
+    .sello {
+      position: absolute;
+      top: 68%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 20%, #fdf3cf 0, #dec088 40%, #b49152 100%);
+      box-shadow:
+        0 10px 18px rgba(0,0,0,0.32),
+        inset 0 0 10px rgba(0,0,0,0.35);
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .sello-inner {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      color: #fff9e6;
+      font-size: 1rem;
+      letter-spacing: 0.22em;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    }
+
+    .sello-inner .amp {
+      font-size: 0.6em;
+      margin: 0 0.05em;
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    /* tarjeta interior */
+    .tarjeta {
+      position: absolute;
+      inset: 18px 30px;
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 0 0, rgba(255,255,255,0.85), transparent 60%),
+        radial-gradient(circle at 100% 0, rgba(255,255,255,0.85), transparent 60%),
+        linear-gradient(180deg, #fffdf8, #f1e5d7);
+      box-shadow: 0 18px 34px rgba(0,0,0,0.25);
+      padding: 30px 26px 24px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.95s ease, transform 0.95s ease;
+      z-index: 1;
+    }
+
+    .tarjeta h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+    }
+
+    .tarjeta .names {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+    }
+
+    .tarjeta p {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 6px;
+    }
+
+    .tarjeta p strong {
+      font-weight: 600;
+    }
+
+    /* estado abierto */
+    .sobre.abierto {
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .sobre.abierto .flap-top {
+      transform: rotateX(-185deg);
+      opacity: 0;
+    }
+
+    .sobre.abierto .flap-left,
+    .sobre.abierto .flap-right {
+      opacity: 0;
+    }
+
+    .sobre.abierto .sello {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.85);
+    }
+
+    .sobre.abierto .tarjeta {
+      opacity: 1;
+      transform: translateY(-4px);
+    }
+
+    .hint {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    /* secciones inferiores */
+    main {
+      max-width: 920px;
+      width: 100%;
+      margin-top: 34px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .info-card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 16px;
+      padding: 18px 20px 18px;
+      border: 1px solid rgba(201, 168, 106, 0.35);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+    }
+
+    .info-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+    }
+
+    .info-card h4 {
+      font-size: 0.9rem;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 400;
+    }
+
+    .timeline {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 6px;
+    }
+
+    .timeline li {
+      border-left: 2px solid rgba(201, 168, 106, 0.6);
+      padding-left: 10px;
+      margin-bottom: 8px;
+      position: relative;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .timeline li::before {
+      content: '';
+      position: absolute;
+      left: -6px;
+      top: 6px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--dorado);
+    }
+
+    iframe {
+      width: 100%;
+      height: 230px;
+      border: none;
+      border-radius: 10px;
+      margin-top: 8px;
+    }
+
+    .dress-note {
+      margin-top: 6px;
+      font-size: 0.82rem;
+      opacity: 0.8;
+    }
+
+    .form-iframe {
+  grid-column: 1 / -1;
+}
+
+.form-iframe iframe {
+  width: 100%;
+  height: 500px;
+  border-radius: 16px;
+}
+
+    @media (max-width: 600px) {
+      body {
+        padding-inline: 10px;
+      }
+
+      header h1 {
+        font-size: 1.6rem;
+      }
+
+      .sobre {
+        border-radius: 22px;
+      }
+
+      .tarjeta {
+        inset: 16px 18px;
+        padding-inline: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>NUESTRA BODA</h1>
+  <h2>MER &amp; LUIS</h2>
+</header>
+
+<div class="sobre-container" onclick="toggleSobre()">
+  <div class="sobre" id="sobre">
+    <div class="flap-left"></div>
+    <div class="flap-right"></div>
+    <div class="flap-top"></div>
+
+    <div class="sello">
+      <div class="sello-inner">
+        <span>M</span>
+        <span class="amp">&amp;</span>
+        <span>L</span>
+      </div>
+    </div>
+
+    <div class="tarjeta">
+      <h3>¡Nos casamos!</h3>
+      <div class="names">Mer &amp; Luis</div>
+      <p><strong>Fecha:</strong> Sábado, 8 de agosto de 2026</p>
+      <p><strong>Ceremonia:</strong><br>Ermita de San Antonio del Cerro<br>Navas de San Antonio, Segovia<br>16:30 h</p>
+      <p><strong>Celebración:</strong><br>Los Ángeles de San Rafael – Campo de Golf<br>Segovia</p>
+    </div>
+  </div>
+</div>
+
+<div class="hint">Toca el sobre para abrir</div>
+
+<main>
+  <section class="info-grid">
+    <div class="info-card">
+      <h3>Programa del día</h3>
+      <ul class="timeline">
+        <li><strong>16:30 h</strong> · Ceremonia en la Ermita de San Antonio del Cerro (duración aproximada de 1 hora).</li>
+        <li><strong>17:30 h</strong> · Sesión de fotos en los alrededores de la ermita (aprox. 1 hora).</li>
+        <li><strong>18:30 h</strong> · Cóctel de bienvenida en Los Ángeles de San Rafael, campo de golf (unos 45 minutos).</li>
+        <li><strong>19:15 h</strong> · Banquete con varios pases de platos.</li>
+        <li><strong>Después del banquete</strong> · Fiesta y barra libre durante 4 horas.</li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <h3>Dress code</h3>
+      <p>Nos hace ilusión que vengáis vestidos de forma elegante y cómoda para disfrutar de todo el día con nosotros.</p>
+      <ul class="timeline">
+        <li>Vestimenta formal: vestidos de cóctel o largos, trajes o chaquetas para ellos.</li>
+        <li>Colores permitidos: todos excepto <strong>blanco y tonos muy similares</strong>, reservados para la novia.</li>
+      </ul>
+      <p class="dress-note">Si tienes duda con algún color o tipo de prenda, puedes preguntarnos sin problema.</p>
+    </div>
+
+    <div class="info-card">
+      <h3>Cómo llegar</h3>
+      <h4>Ceremonia</h4>
+      <p>Ermita de San Antonio del Cerro<br>Navas de San Antonio, Segovia</p>
+      <iframe
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=Ermita+de+San+Antonio+del+Cerro,+Navas+de+San+Antonio,+Segovia&output=embed">
+      </iframe>
+
+      <h4>Banquete y fiesta</h4>
+      <p>Los Ángeles de San Rafael – Campo de Golf<br>Segovia</p>
+      <iframe
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=Campo+de+Golf,+Los+Ángeles+de+San+Rafael,+Segovia&output=embed">
+      </iframe>
+    </div>
+
+    <div class="info-card form-iframe">
+      <h3>Confirmación de asistencia</h3>
+      <p>Por favor, confirmad vuestra asistencia antes del <strong>8 de julio de 2026</strong>.</p>
+      <p>Podéis hacerlo directamente desde este formulario:</p>
+      <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLSfh36rTNN0by5wkdBHK5h4v8wQ_h9s7HPzy7ZKyKF3jUO5jNQ/viewform?usp=dialog"
+        marginheight="0" marginwidth="0">Cargando…</iframe>
+    </div>
+  </section>
+</main>
+
+<script>
+  function toggleSobre() {
+    const sobre = document.getElementById('sobre');
+    sobre.classList.toggle('abierto');
+  }
+</script>
+
+</body>
+</html>
