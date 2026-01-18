@@ -11,10 +11,7 @@
 
   <style>
     :root{
-      /* Papel fondo */
       --papel-fino:#fffdfa;
-
-      /* Papel sobre (muy cercano al fondo) */
       --papel:#fbf7ef;
       --papel-oscuro:#f3ede2;
 
@@ -28,6 +25,15 @@
       --sombra-mini: 0 10px 24px rgba(0,0,0,.08);
 
       --ease-premium: cubic-bezier(.22,.75,.2,1);
+
+      /* Flap superior más corto */
+      --flap-depth: 52%;
+
+      /* ✅ Intensidad del pliegue superior (por si quieres afinar) */
+      --fold-opacity: 0.28;     /* antes 0.20 */
+      --fold-shadow: 0.22;      /* sombra principal */
+      --fold-highlight: 0.18;   /* luz del pliegue */
+      --fold-crease: 0.18;      /* línea central */
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
@@ -66,7 +72,7 @@
       margin-top:6px;
     }
 
-    /* ===== SOBRE (vertical, estilo “sobre de dinero”) ===== */
+    /* ===== SOBRE ===== */
     .sobre-container{
       width:100%;
       display:flex;
@@ -83,7 +89,7 @@
       max-height:760px;
 
       position:relative;
-      border-radius:22px; /* un pelín menos redondo = más “sobre real” */
+      border-radius:22px;
       overflow:hidden;
       background:transparent;
 
@@ -93,7 +99,6 @@
       transform: translateZ(0);
     }
 
-    /* Fondo del sobre */
     .pocket{
       position:absolute; inset:0;
       border-radius:22px;
@@ -111,7 +116,6 @@
       z-index:0;
     }
 
-    /* Sombra interna lateral (cerrado) */
     .pocket::after{
       content:"";
       position:absolute; inset:0;
@@ -132,7 +136,6 @@
       z-index:1;
     }
 
-    /* Costura vertical central (look “sobre dinero”) */
     .seam{
       position:absolute;
       top:10%;
@@ -151,25 +154,65 @@
       pointer-events:none;
     }
 
-    /* Pliegue inferior (triángulo suave) */
-    .bottom-fold{
+    /* ✅ PLEGUE SUPERIOR más marcado (doble sombra + highlight + línea central) */
+    .top-fold{
       position:absolute;
-      left:0; right:0; bottom:-2px;
+      left:0; right:0; top:-2px;
       height:30%;
-      background:
-        radial-gradient(ellipse at 50% 0, rgba(0,0,0,.18), transparent 68%),
-        linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.05));
-      clip-path: polygon(0 100%, 50% 18%, 100% 100%);
-      opacity:.22;
+      opacity: var(--fold-opacity);
       z-index:2;
       pointer-events:none;
+
+      /* base del pliegue */
+      background:
+        radial-gradient(ellipse at 50% 100%,
+          rgba(0,0,0,var(--fold-shadow)),
+          transparent 68%
+        ),
+        linear-gradient(180deg,
+          rgba(255,255,255,0.10),
+          rgba(0,0,0,0.05)
+        );
+
+      clip-path: polygon(0 0, 50% 82%, 100% 0);
     }
 
-    /* Boca del sobre */
+    /* highlight fino sobre los “bordes” del pliegue */
+    .top-fold::before{
+      content:"";
+      position:absolute;
+      inset: 0;
+      clip-path: polygon(0 0, 50% 82%, 100% 0);
+      background:
+        linear-gradient(180deg,
+          rgba(255,255,255,var(--fold-highlight)),
+          rgba(255,255,255,0) 55%
+        );
+      opacity: 0.9;
+    }
+
+    /* línea central (hendidura) muy suave */
+    .top-fold::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      top:2%;
+      width:2px;
+      height:80%;
+      transform: translateX(-1px);
+      background: linear-gradient(180deg,
+        rgba(0,0,0,0),
+        rgba(0,0,0,var(--fold-crease)) 30%,
+        rgba(0,0,0,0) 100%
+      );
+      opacity: 0.55;
+      filter: blur(0.1px);
+    }
+
     .mouth{
       position:absolute;
       left:10%; right:10%;
-      top:22%;
+      top:26%;
       height:12px;
       border-radius:999px;
       background: linear-gradient(180deg,
@@ -186,7 +229,7 @@
     .mouth-shadow{
       position:absolute;
       left:10.5%; right:10.5%;
-      top: calc(22% + 10px);
+      top: calc(26% + 10px);
       height:90px;
       border-radius:0 0 18px 18px;
       background: radial-gradient(ellipse at 50% 0, rgba(0,0,0,.20), transparent 70%);
@@ -196,7 +239,6 @@
       pointer-events:none;
     }
 
-    /* Flaps */
     .flap-left,.flap-right{
       position:absolute; inset:0;
       background:
@@ -229,7 +271,8 @@
         ),
         linear-gradient(145deg, var(--papel-oscuro), var(--papel));
       background-blend-mode: soft-light, soft-light, normal;
-      clip-path: polygon(0 0, 100% 0, 50% 58%);
+
+      clip-path: polygon(0 0, 100% 0, 50% var(--flap-depth));
       transform-origin: top;
       transition: transform 1s var(--ease-premium), opacity .5s ease .3s;
       z-index:6;
@@ -237,10 +280,9 @@
       pointer-events:none;
     }
 
-    /* ===== SELLO (más centrado y con “despegue”) ===== */
     .sello{
       position:absolute;
-      top:56%;              /* 🔥 antes estaba muy abajo */
+      top:54.5%;
       left:50%;
 
       --rot:0deg;
@@ -296,15 +338,14 @@
       transform: translateY(-1px);
     }
 
-    /* ===== TARJETA INTERIOR ===== */
     .tarjeta{
       position:absolute;
-      inset: 40px 30px;       /* un pelín más ancho */
+      inset: 40px 30px;
       border-radius:18px;
       z-index:5;
 
       opacity:0;
-      transform: translateY(56px) scale(.985); /* más “metida” */
+      transform: translateY(56px) scale(.985);
       transition:
         opacity .7s ease,
         transform .95s var(--ease-premium);
@@ -313,7 +354,7 @@
       align-items:center;
       justify-content:center;
       will-change: transform, opacity;
-      pointer-events:none; /* solo se abre clicando en el sobre */
+      pointer-events:none;
     }
 
     .invite{
@@ -336,7 +377,6 @@
       text-align:center;
     }
 
-    /* Para que SIEMPRE el texto vaya por encima de las hojas */
     .invite .content,
     .invite .footer{
       position:relative;
@@ -346,11 +386,9 @@
       flex-direction:column;
       align-items:center;
     }
-
     .invite .content{ gap:10px; padding-top:4px; }
     .invite .footer{ gap:6px; padding-bottom:4px; }
 
-    /* Hojas acuarela (RECOLOCADAS para NO tapar el teléfono) */
     .invite::before,
     .invite::after{
       content:"";
@@ -363,7 +401,6 @@
       filter: blur(.1px);
     }
 
-    /* superior derecha */
     .invite::before{
       width:320px;height:220px;
       top:-40px; right:-70px;
@@ -371,16 +408,14 @@
       background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='520' height='360' viewBox='0 0 520 360'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23c9d2c7' stop-opacity='0.85'/><stop offset='0.48' stop-color='%239fb0a0' stop-opacity='0.85'/><stop offset='1' stop-color='%237e8f7a' stop-opacity='0.9'/></linearGradient></defs><g fill='none'><path d='M340 40c60 35 120 22 150-10-12 52-48 96-102 114-40 13-78 2-108-20' fill='url(%23g)' opacity='0.85'/><path d='M300 88c38 26 78 34 120 18-24 38-64 66-112 68-36 2-66-10-88-28' fill='url(%23g)' opacity='0.6'/><path d='M414 98c22 10 46 10 72-2-8 22-28 42-56 52-22 8-42 6-58-2' fill='url(%23g)' opacity='0.55'/><path d='M378 58c30 16 60 14 92-2-10 26-34 50-70 62-28 10-54 8-74-2' fill='url(%23g)' opacity='0.45'/></g></svg>");
     }
 
-    /* inferior izquierda (más abajo y más tenue) */
     .invite::after{
       width:290px;height:200px;
-      bottom:-78px; left:-78px; /* 🔥 baja más para no tapar el footer */
+      bottom:-78px; left:-78px;
       transform: rotate(-6deg);
-      opacity:.70;             /* más transparente */
+      opacity:.70;
       background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='520' height='360' viewBox='0 0 520 360'><defs><linearGradient id='g2' x1='1' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23c9d2c7' stop-opacity='0.85'/><stop offset='0.48' stop-color='%239fb0a0' stop-opacity='0.85'/><stop offset='1' stop-color='%237e8f7a' stop-opacity='0.9'/></linearGradient></defs><g fill='none'><path d='M180 320c-70-30-130-10-160 22 10-58 48-110 110-134 44-18 90-12 128 8' fill='url(%23g2)' opacity='0.85'/><path d='M216 266c-44-18-86-16-126 8 22-44 62-82 114-92 40-8 76 2 102 22' fill='url(%23g2)' opacity='0.6'/><path d='M100 258c-22-6-44-2-68 14 8-24 26-50 54-64 22-12 42-12 58-6' fill='url(%23g2)' opacity='0.55'/><path d='M156 304c-34-16-66-14-98 4 12-30 40-62 80-74 32-10 60-6 82 8' fill='url(%23g2)' opacity='0.45'/></g></svg>");
     }
 
-    /* Tipografía interior centrada */
     .invite-title{
       font-family:'Playfair Display',serif;
       font-size:1.25rem;
@@ -440,7 +475,6 @@
       color: rgba(90,70,51,.90);
     }
 
-    /* 🔥 Footer subido y con contraste para que SIEMPRE se lea */
     .invite-footer{
       font-size:.92rem;
       letter-spacing:.05em;
@@ -452,7 +486,7 @@
       letter-spacing:.02em;
     }
 
-    /* ===== ABIERTO ===== */
+    /* ABIERTO */
     .sobre.abierto .flap-top{
       transform: rotateX(-185deg);
       opacity:0;
@@ -460,7 +494,6 @@
     .sobre.abierto .flap-left,
     .sobre.abierto .flap-right{ opacity:0; }
 
-    /* sello: micro rot + lift, luego fade */
     .sobre.abierto .sello{
       --rot:-10deg;
       --lift:-10px;
@@ -468,13 +501,11 @@
     }
     .sobre.abierto .sello::after{ opacity:.06; }
 
-    /* tarjeta: sale y se centra */
     .sobre.abierto .tarjeta{
       opacity:1;
       transform: translateY(-8px) scale(1);
     }
 
-    /* al abrir, suavizamos sombras internas */
     .sobre.abierto .mouth{opacity:.34}
     .sobre.abierto .mouth-shadow{opacity:.14}
     .sobre.abierto .pocket::after{opacity:.11}
@@ -508,7 +539,7 @@
       background: var(--papel-fino);
       border-radius:16px;
       padding:18px 20px;
-      border:1px solid var(--borde-oro);
+      border:1px solid rgba(201,168,106,.18);
       box-shadow: var(--sombra-mini);
       width:100%;
       min-height:250px;
@@ -563,7 +594,6 @@
     .form-iframe{grid-column:1/-1}
     .form-iframe iframe{width:100%;height:520px;border-radius:16px}
 
-    /* ===== MÓVIL ===== */
     @media (max-width:600px){
       body{padding-inline:10px;padding-top:12px}
       header h1{font-size:1.5rem}
@@ -574,12 +604,9 @@
       }
 
       .tarjeta{ inset: 36px 18px; }
-
       .invite{ padding: 24px 14px 18px; }
-      .invite::before{ width:280px;height:200px; top:-42px; right:-76px; }
-      .invite::after{ width:260px;height:180px; bottom:-84px; left:-86px; }
 
-      .sello{ top:55%; } /* mantiene el sello centrado en móvil */
+      .sello{ top:54%; }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -599,35 +626,29 @@
       <div class="sobre" id="sobre">
         <div class="pocket"></div>
 
-        <!-- Look “sobre dinero” -->
         <div class="seam"></div>
-        <div class="bottom-fold"></div>
+        <div class="top-fold"></div>
 
-        <!-- Boca -->
         <div class="mouth"></div>
         <div class="mouth-shadow"></div>
 
-        <!-- Flaps -->
         <div class="flap-left"></div>
         <div class="flap-right"></div>
         <div class="flap-top"></div>
 
-        <!-- Sello centrado -->
         <div class="sello">
           <div class="sello-inner">
             <span>M</span><span class="amp">&amp;</span><span>L</span>
           </div>
         </div>
 
-        <!-- Tarjeta -->
         <div class="tarjeta">
           <div class="invite" role="article" aria-label="Invitación">
             <div class="content">
               <div class="invite-title">¡Nos casamos!</div>
 
               <div class="invite-names">
-                Luis &amp;<br>
-                Mercedes
+                Luis &amp;<br>Mercedes
               </div>
 
               <div class="invite-date" aria-label="Fecha">
@@ -652,6 +673,7 @@
             </div>
           </div>
         </div>
+
       </div>
     </div>
 
@@ -716,12 +738,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
