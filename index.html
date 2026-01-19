@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boda de Luis y Mercedes</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
     
     <style>
         /* --- BASE --- */
@@ -30,7 +30,6 @@
             position: relative;
             width: 320px; height: 220px;
             cursor: pointer;
-            /* AUMENTADO EL MARGEN INFERIOR PARA SEPARARLO DEL BOTÓN */
             margin-bottom: 80px; 
             transform: scale(1.1);
             filter: drop-shadow(0 20px 25px rgba(0,0,0,0.2)); 
@@ -77,21 +76,40 @@
             transform-origin: top; transition: transform 0.8s cubic-bezier(0.6, 0, 0.2, 1);
             z-index: 20; filter: drop-shadow(0 3px 5px rgba(0,0,0,0.1));
         }
-        /* Textura ruido */
         .texture-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.4; pointer-events: none; z-index: 25;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.5'/%3E%3C/svg%3E");
             mix-blend-mode: overlay;
         }
+
+        /* --- SELLO MEJORADO (CINZEL FONT) --- */
         .seal {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 58px; height: 58px;
             background: radial-gradient(circle at 35% 35%, #e6cf8b, #cfaa68, #8a6e36);
-            border-radius: 50%; z-index: 30; display: flex; align-items: center; justify-content: center;
-            color: #5c4415; font-family: 'Great Vibes', cursive; font-size: 1.5em;
+            border-radius: 50%; z-index: 30; 
+            display: flex; align-items: center; justify-content: center;
+            color: #5c4415; 
+            /* Cambio de fuente a una más romana/grabado */
+            font-family: 'Cinzel', serif; 
+            font-weight: 700;
+            font-size: 1.6em; /* Letras principales grandes */
+            letter-spacing: 1px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: opacity 0.3s;
             border: 2px solid rgba(255,255,255,0.2);
+            text-shadow: 0 1px 1px rgba(255,255,255,0.3);
         }
+        
+        /* Estilo específico para el "&" */
+        .seal .amp {
+            font-size: 0.6em; /* Mucho más pequeño */
+            font-family: 'Playfair Display', serif; /* Más elegante/cursiva */
+            font-style: italic;
+            vertical-align: middle;
+            margin: 0 2px;
+            color: #4a3b10;
+        }
+
         .envelope-wrapper.open .flap { transform: rotateX(180deg); z-index: 0; }
         .envelope-wrapper.open .seal { opacity: 0; }
         
@@ -229,7 +247,9 @@
             <div class="flap">
                 <div class="texture-overlay"></div>
             </div>
-            <div class="seal">LM</div>
+            <div class="seal">
+                L<span class="amp">&</span>M
+            </div>
         </div>
         <button class="open-btn" onclick="openInv()">Abrir Invitación</button>
     </div>
@@ -298,7 +318,7 @@
             </div>
 
             <div class="rsvp-box">
-                <p style="margin-bottom: 25px; font-size: 0.9em; color: #999; font-style: italic;">Se ruega confirmación antes del 8 de Junio</p>
+                <p style="margin-bottom: 25px; font-size: 0.9em; color: #999; font-style: italic;">Se ruega confirmación antes del 1 de Julio</p>
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSfh36rTNN0by5wkdBHK5h4v8wQ_h9s7HPzy7ZKyKF3jUO5jNQ/viewform?usp=dialog" class="btn-black">Confirmar Asistencia</a>
                 
                 <a href="tel:622541486" class="phone-link">
@@ -330,4 +350,5 @@
     </script>
 </body>
 </html>
+
 
