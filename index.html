@@ -90,10 +90,9 @@
             border-radius: 50%; z-index: 30; 
             display: flex; align-items: center; justify-content: center;
             color: #5c4415; 
-            /* Cambio de fuente a una más romana/grabado */
             font-family: 'Cinzel', serif; 
             font-weight: 700;
-            font-size: 1.6em; /* Letras principales grandes */
+            font-size: 1.6em; 
             letter-spacing: 1px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: opacity 0.3s;
             border: 2px solid rgba(255,255,255,0.2);
@@ -102,8 +101,8 @@
         
         /* Estilo específico para el "&" */
         .seal .amp {
-            font-size: 0.6em; /* Mucho más pequeño */
-            font-family: 'Playfair Display', serif; /* Más elegante/cursiva */
+            font-size: 0.6em;
+            font-family: 'Playfair Display', serif;
             font-style: italic;
             vertical-align: middle;
             margin: 0 2px;
@@ -212,6 +211,14 @@
         }
         .btn-link:hover { border-color: var(--gold); }
 
+        /* NUEVO: fila de botones/links para alojamiento */
+        .btn-row{
+            display: flex;
+            gap: 18px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
         /* RSVP */
         .rsvp-box { margin-top: 20px; padding: 40px 0; border-top: 1px solid #eee; }
         .btn-black {
@@ -317,6 +324,54 @@
                 </div>
             </div>
 
+            <!-- =========================
+                 NUEVO: ALOJAMIENTO (Los Ángeles de San Rafael)
+                 Estética integrada con tus secciones existentes
+            ========================== -->
+            <div class="dress-code-section">
+                <span class="dc-icon">🛏️</span>
+                <div class="dc-title">Alojamiento</div>
+                <div class="dc-text">Los Ángeles de San Rafael</div>
+
+                <p class="body-text" style="margin-top: 18px; margin-bottom: 10px;">
+                    Te dejamos dos opciones de hotel en <strong>Los Ángeles de San Rafael</strong>.
+                    En coche están a aproximadamente <strong>10–15 minutos</strong> desde <strong>Air Golf Club</strong> (tiempo orientativo). 
+                </p>
+
+                <div class="grid" style="margin-top: 30px; margin-bottom: 10px;">
+                    <div class="place">
+                        <h3>Hotel Segovia Sierra de Guadarrama</h3>
+                        <p>
+                            Los Ángeles de San Rafael (Segovia)<br>
+                            <em>Aprox. 10–15 min en coche desde Air Golf Club.</em>
+                        </p>
+                        <div class="btn-row">
+                            <a href="https://www.google.com/maps/search/?api=1&query=Hotel+Segovia+Sierra+de+Guadarrama+Los+%C3%81ngeles+de+San+Rafael"
+                               target="_blank" class="btn-link">Ubicación</a>
+                            <a href="https://www.airclubreservas.es/es/index.html"
+                               target="_blank" class="btn-link">Reservar</a>
+                        </div>
+                    </div>
+
+                    <div class="place">
+                        <h3>Hotel Náyade</h3>
+                        <p>
+                            Los Ángeles de San Rafael (Segovia)<br>
+                            <em>Aprox. 10–15 min en coche desde Air Golf Club.</em>
+                        </p>
+                        <div class="btn-row">
+                            <a href="https://www.google.com/maps/search/?api=1&query=Hotel+N%C3%A1yade+Los+%C3%81ngeles+de+San+Rafael"
+                               target="_blank" class="btn-link">Ubicación</a>
+                            <a href="https://www.hotelnayade.es/es"
+                               target="_blank" class="btn-link">Reservar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- =========================
+                 FIN ALOJAMIENTO
+            ========================== -->
+
             <div class="rsvp-box">
                 <p style="margin-bottom: 25px; font-size: 0.9em; color: #999; font-style: italic;">Se ruega confirmación antes del 8 de Junio</p>
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSfh36rTNN0by5wkdBHK5h4v8wQ_h9s7HPzy7ZKyKF3jUO5jNQ/viewform?usp=dialog" class="btn-black">Confirmar Asistencia</a>
@@ -350,6 +405,3 @@
     </script>
 </body>
 </html>
-
-
-
